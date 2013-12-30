@@ -103,7 +103,7 @@ class SI_Feed_Widget extends WP_Widget {
     $config = array(
           'apiKey'      => $options['instagram_app_id'],
           'apiSecret'   => $options['instagram_app_secret'],
-          'apiCallback' => plugins_url( NULL , __FILE__ ) . '/simple-instagram-setup.php' // must point to success.php
+          'apiCallback' => site_url() . '/wp-admin/admin-ajax.php?action=register_instagram'
         );
    
     $instagram = new Instagram($config);
@@ -220,7 +220,7 @@ class SI_Popular_Widget extends WP_Widget {
     $config = array(
           'apiKey'      => $options['instagram_app_id'],
           'apiSecret'   => $options['instagram_app_secret'],
-          'apiCallback' => plugins_url( NULL , __FILE__ ) . '/simple-instagram-setup.php' // must point to success.php
+          'apiCallback' => site_url() . '/wp-admin/admin-ajax.php?action=register_instagram'
         );
    
     $instagram = new Instagram($config);
@@ -351,7 +351,7 @@ class SI_Profile_Widget extends WP_Widget {
     $config = array(
           'apiKey'      => $options['instagram_app_id'],
           'apiSecret'   => $options['instagram_app_secret'],
-          'apiCallback' => plugins_url( NULL , __FILE__ ) . '/simple-instagram-setup.php' // must point to success.php
+          'apiCallback' => site_url() . '/wp-admin/admin-ajax.php?action=register_instagram'
         );
    
     $instagram = new Instagram($config);

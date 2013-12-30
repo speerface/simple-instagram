@@ -223,7 +223,7 @@ require_once('instagram.class.php');
     $config = array(
           'apiKey'      => $options['instagram_app_id'],
           'apiSecret'   => $options['instagram_app_secret'],
-          'apiCallback' => plugins_url( NULL , __FILE__ ) . '/simple-instagram-setup.php' // must point to success.php
+          'apiCallback' => site_url() . '/wp-admin/admin-ajax.php?action=register_instagram'
         );
    
     $instagram = new Instagram($config);

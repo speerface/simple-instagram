@@ -49,13 +49,15 @@
             <li><strong>Application Name</strong>: The name of your application. Choose something that is easy to remember and relates to your website in a meaningful way.</li>
             <li><strong>Description</strong>: Describe your application and its functionality.</li>
             <li><strong>Website</strong>: The URL of this website ( <?php echo get_site_url(); ?> )</li>
-            <li><strong>OAuth redirect_uri</strong>: Use the following URL: <br /><input type="text" id="url_text" disabled value="<?php echo  str_replace('admin/views', 'iframe/', plugins_url( NULL , __FILE__ )); ?>simple-instagram-setup.php"><button id="d_clip_button" data-clipboard-target="url_text" class="mini-button" value="Copy to Clipboard"><i class="fa fa-clipboard"></i> Copy</button></li>
+            <li><strong>OAuth redirect_uri</strong>: Use the following URL: <br /><input type="text" id="url_text" disabled value="<?php echo  get_site_url(); ?>/wp-admin/admin-ajax.php?action=register_instagram"><button id="d_clip_button" data-clipboard-target="url_text" class="mini-button" value="Copy to Clipboard"><i class="fa fa-clipboard"></i> Copy</button></li>
           </ul>
         </li>
         <li>Click the "Register" button. On the resulting page, take note of the Client ID and Client Secret values for the next step.</li>
       </ol>
 	  </div>
-	  
+	  <script>
+	ZeroClipboard.setDefaults( { moviePath: '<?php echo  str_replace('admin/views', 'admin/assets/js/', plugins_url( NULL , __FILE__ )); ?>ZeroClipboard.swf' } );
+</script>
 	</section>
 	
 	<section id="step02">
@@ -77,7 +79,7 @@
     </div>
     <div class="section_content <?php if($set == 1){ echo "active"; } ?>">
      <?php if($set == 1){ ?>
-	   <iframe width="100%" src="<?php echo plugins_url( '../../iframe/simple-instagram-setup.php' , __FILE__ ); ?>"></iframe>
+	   <iframe width="100%" src="<?php echo  get_site_url(); ?>/wp-admin/admin-ajax.php?action=register_instagram"</iframe>
 	   <?php }else{ ?>
 	     Please follow steps 1 and 2 first.
 	   <?php } ?>
@@ -85,6 +87,4 @@
 	</section>
 
 </div>
-<script>
-	ZeroClipboard.setDefaults( { moviePath: '<?php echo  str_replace('admin/views', 'admin/assets/js/', plugins_url( NULL , __FILE__ )); ?>ZeroClipboard.swf' } );
-</script>
+
