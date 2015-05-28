@@ -14,7 +14,7 @@
  * @wordpress-plugin
  * Plugin Name:       Simple Instagram
  * Description:       A plugin to allow users to include InstaGram feeds, media, and information.
- * Version:           1.0.0
+ * Version:           1.2
  * Author:            Aaron Speer
  * Author URI:        aaronspeer.com
  * Text Domain:       simple-instagram
@@ -59,6 +59,8 @@ add_action( 'plugins_loaded', array( 'simpleInstagram', 'get_instance' ) );
 
 // Add register iframe
 add_action('wp_ajax_register_instagram', 'register_instagram');
+add_action('wp_ajax_search_users', 'search_users');
+
 function register_instagram(){
   	$options_check = get_option('si_options');
 	$config = array(
@@ -105,8 +107,11 @@ function register_instagram(){
 	?> 
 	
 	<div class="instagram">
-		<span><i class="fa fa-instagram"></i></span><a href="<?php echo $loginUrl; ?>">Login with Instagram</a>
+		<span><i class="fa fa-instagram"></i></span><a href="<?php echo $loginUrl; ?>" target="_blank">Login with Instagram</a>
 	</div>
+	<script>
+		setTimeout(function(){ location.reload(); },5000);
+	</script>
 	<?php }else{
 		if($auth_check == 'error'){
 			//Error with auth
@@ -116,14 +121,18 @@ function register_instagram(){
 			?>
 			<p>Whoops! It looks like there's a problem with your App credentials. Please check your entries in Step 02 and then use the button below to authorize the app once again.</p>
 			<div class="instagram">
-				<span><i class="fa fa-instagram"></i></span><a href="<?php echo $loginUrl; ?>">Login with Instagram</a>
+				<span><i class="fa fa-instagram"></i></span><a href="<?php echo $loginUrl; ?>" target="_blank">Login with Instagram</a>
 			</div>
+			<script>
+				setTimeout(function(){ location.reload(); },5000);
+			</script>
 		<?php }else{
 		  //We have auth credentials, check to make sure they haven't expired
 		  $instagram = new Instagram($config);
 		  $instagram->setAccessToken($auth_check);
 		  $user = $instagram->getUser();
 		  if(isset($user->data->username)){?>
+		    <h2>Success!</h2>
 		    <p>Alright! You're all set up and ready to go!</p>
 		  <?php }else{
 		  	//Auth token has expired. Show login button instead. 
@@ -133,11 +142,47 @@ function register_instagram(){
 		  ?>
 		  <p>Whoops! It looks like your authorization has expired. Please use the button below to authorize the app once again.</p>
 		  <div class="instagram">
-				<span><i class="fa fa-instagram"></i></span><a href="<?php echo $loginUrl; ?>">Login with Instagram</a>
+				<span><i class="fa fa-instagram"></i></span><a href="<?php echo $loginUrl; ?>" target="_blank">Login with Instagram</a>
 			</div>
+			<script>
+				setTimeout(function(){ location.reload(); },5000);
+			</script>
 		  <?php } ?>
 		<?php }
 		}
+	exit;
+  }
+
+function search_users(){
+  	$options = get_option('si_options');
+    $auth = get_option('si_oauth');
+	$user = $_POST['user'];
+    $config = array(
+          'apiKey'      => $options['instagram_app_id'],
+          'apiSecret'   => $options['instagram_app_secret'],
+          'apiCallback' => site_url() . '/wp-admin/admin-ajax.php?action=register_instagram'
+        );
+   
+    $instagram = new Instagram($config);
+    $instagram->setAccessToken($auth);
+	
+	$feed = $instagram->searchUser($user, 20);
+	
+	foreach($feed->data as $result){ ?>
+		<div class="si_sr">
+			<div class="si_sr_user_image">
+				<img src="<?php echo $result->profile_picture; ?>">
+			</div>
+			<div class="si_sr_user_info">
+				<div class="si_sr_user_name">
+					<strong>username: </strong><?php echo $result->username; ?>
+				</div>
+				<div class="si_sr_user_id">
+					<strong>user ID: </strong><?php echo $result->id; ?>
+				</div>
+			</div>
+		</div>
+	<?php }
 	exit;
   }
 /*----------------------------------------------------------------------------*

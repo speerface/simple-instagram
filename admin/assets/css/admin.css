@@ -81,3 +81,42 @@ li li{
 	-o-border-radius: 0 5px 5px 0;
 	border-radius: 0 5px 5px 0;
 }
+
+/* User Search Results */
+#search_results{
+	overflow: hidden;
+	padding-top: 10px;
+}
+
+.si_sr{
+	display:block;
+	width: 20%;
+	max-width: 100%;
+	overflow: hidden;
+	text-align: center;
+	padding: 5px;
+	box-sizing: border-box;
+	float: left;
+}
+
+.si_sr_user_image{
+	width: 100%;
+}
+
+.si_sr_user_image img{
+	max-width: 100%;
+}
+
+.si_sr_user_info{
+	width: 100%;
+}
+
+.si_sr_user_info div{
+	width: 100%;
+}
+
+@media screen and (max-width: 717px){
+	.si_sr{
+		width: 33%;
+	}
+}

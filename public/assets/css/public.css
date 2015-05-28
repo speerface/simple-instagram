@@ -95,6 +95,9 @@ li.si_item{
 	max-width: 100%;
 }
 
+.si_feed_list{
+	overflow:hidden;
+}
 /* Themed Profile Widget */
 
 .si_profile_widget{

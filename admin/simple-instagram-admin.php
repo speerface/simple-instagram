@@ -245,5 +245,4 @@ class simpleInstagram_admin {
     echo "<input id='simple-instagram_app_secret' name='si_options[instagram_app_secret]' size='40' type='text' value='{$options['instagram_app_secret']}' />";
   }
 
-  
 }

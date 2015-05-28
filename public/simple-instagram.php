@@ -167,18 +167,15 @@ class simpleInstagram {
 				foreach ( $blog_ids as $blog_id ) {
 
 					switch_to_blog( $blog_id );
-					self::single_deactivate();
 
 				}
 
 				restore_current_blog();
 
 			} else {
-				self::single_deactivate();
 			}
 
 		} else {
-			self::single_deactivate();
 		}
 
 	}
@@ -224,6 +221,13 @@ class simpleInstagram {
 		return $wpdb->get_col( $sql );
 
 	}
+	
+	private static function single_activate() {
+        }
+
+    
+    private static function single_deactivate() {
+    }
 	
 	/**
 	 * Load the plugin text domain for translation.

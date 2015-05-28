@@ -7,66 +7,87 @@ require_once('instagram.class.php');
           'size' => 'medium',
           'wrapper' => 'div',
           'link' => 'true',
-          'width' => 'auto'
+          'width' => 'auto',
+          'tag' => '',
+          'user' => 'self'
      ), $atts ) );
      
      $instagram = _createInstagram();
      
-     $feed = $instagram->getUserMedia('self', $limit);
-     $return = '<div class="si_feed">';
+	 if($tag == ''){
+     	$feed = $instagram->getUserMedia($user, $limit);
+	 }else{
+     	$feed = $instagram->getTagMedia($tag, $limit);
+	 }
+	 if(($feed) && count($feed->data) > 0){
+	 	if(count($feed->data) > $limit){
+	 		$total = count($feed->data);
+	 		$diff = $total - $limit;
+			$start = $total - $diff;
+			for($i=$start; $i <= $total; $i++){	
+				unset($feed->data[$i]);
+			}
+	 	}
+	 	$return = '<div class="si_feed">';
      
-	 $width = str_replace('px', '', $width);
-	 
-     if($width != 'auto'){
-       if($width > 612){
-         $width = 612;
-       }
-       $w_param = 'width="'.$width.'" height="'.$width.'"';
-     }else{
-       $w_param = '';
-     }
+		 $width = str_replace('px', '', $width);
+		 
+	     if($width != 'auto'){
+	       if($width > 612){
+	         $width = 612;
+	       }
+	       $w_param = 'width="'.$width.'" height="'.$width.'"';
+	     }else{
+	       $w_param = '';
+	     }
+	     
+	     if($wrapper == 'li'){
+	       $return .= '<ul class="si_feed_list">';
+	     }
+	     
+	     foreach($feed->data as $image){
+	       switch($size){
+	         case 'full':
+	           $url = $image->images->standard_resolution->url;
+	           break;
+	         case 'medium':
+	           $url = $image->images->low_resolution->url;
+	           break;
+	         case 'small':
+	           $url = $image->images->thumbnail->url;
+	           break;
+	       }
+
+	       // Fix https
+	       $url = str_replace('http://', '//', $url);
+	       if($wrapper == 'div'){
+	         $return .= '<div class="si_item">';
+	       }else{
+	         $return .= '<li class="si_item">';
+	       }
+	       
+	       if($link == 'true'){
+	         $return .= '<a href="'.$image->link.'" target="_blank">';
+	       }
+	       $return .= '<img src="'.$url.'" '.$w_param.' >';
+	       if($link == 'true'){
+	         $return .= '</a>';
+	       }
+	       
+	       if($wrapper == 'div'){
+	         $return .= '</div>';
+	       }else{
+	         $return .= '</li>';
+	       }
+	     }
+	     if($wrapper == 'li'){
+	       $return .= '</ul>';
+	     }
+	     $return .= '</div>';
+	 }else{
+	 	$return = '';
+	 }
      
-     if($wrapper == 'li'){
-       $return .= '<ul class="si_feed_list">';
-     }
-     
-     foreach($feed->data as $image){
-       switch($size){
-         case 'full':
-           $url = $image->images->standard_resolution->url;
-           break;
-         case 'medium':
-           $url = $image->images->low_resolution->url;
-           break;
-         case 'small':
-           $url = $image->images->thumbnail->url;
-           break;
-       }
-       
-       if($wrapper == 'div'){
-         $return .= '<div class="si_item">';
-       }else{
-         $return .= '<li class="si_item">';
-       }
-       
-       if($link == 'true'){
-         $return .= '<a href="'.$image->link.'" target="_blank">';
-       }
-       $return .= '<img src="'.$url.'" '.$w_param.' >';
-       if($link == 'true'){
-         $return .= '</a>';
-       }
-       
-       if($wrapper == 'div'){
-         $return .= '</div>';
-       }else{
-         $return .= '</li>';
-       }
-     }
-     if($wrapper == 'li'){
-       $return .= '</ul>';
-     }
-     $return .= '</div>';
      return $return;
   }
   
@@ -116,7 +137,9 @@ require_once('instagram.class.php');
 	           $url = $feed->data[$i]->images->thumbnail->url;
 	           break;
 	       }
-	       
+
+	       // Fix https
+	       $url = str_replace('http://', '//', $url);
 	       if($wrapper == 'div'){
 	         $return .= '<div class="si_item">';
 	       }else{
@@ -142,7 +165,10 @@ require_once('instagram.class.php');
      for($i==0; $i <= $count; $i++){
        if($feed->data[$i]->images != NULL){
            $url = $feed->data[$i]->images->standard_resolution->url;
-       
+
+           // Fix https
+       	   $url = str_replace('http://', '//', $url);
+
 	       $return .= '<li class="si_item">';
 	       
 	       $return .= '<a href="'.$feed->data[$i]->link.'" target="_blank">';

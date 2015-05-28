@@ -79,12 +79,29 @@
     </div>
     <div class="section_content <?php if($set == 1){ echo "active"; } ?>">
      <?php if($set == 1){ ?>
-	   <iframe width="100%" src="<?php echo  get_site_url(); ?>/wp-admin/admin-ajax.php?action=register_instagram"</iframe>
+	   <iframe width="100%" src="<?php echo  get_site_url(); ?>/wp-admin/admin-ajax.php?action=register_instagram"></iframe>
 	   <?php }else{ ?>
 	     Please follow steps 1 and 2 first.
 	   <?php } ?>
 	  </div>
 	</section>
+	
+	<?php if(get_option('si_oauth') && get_option('si_oauth') != ''){ ?>
+		<section id="search">
+			<div class="section_title">
+				Lookup User ID
+			</div>
+			<div class="section_content active">
+			    <p>In order to display the feed of another user, you'll need to know their user ID. Use the form below to search for a user by their username.</p>
+			    <form>
+			    	<label>Username:</label>
+			    	<input type="text" name="user_name">
+			    	<button class="search_user" value="Search">Search!</button>
+			    	<div id="search_results"></div>
+			    </form>
+			</div>
+		</section>
+	<?php } ?>
 
 </div>
 

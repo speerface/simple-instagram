@@ -1,9 +1,10 @@
 === Simple Instagram ===
-Contributors: mr_speer
+Contributors: mr_speer, werkpress
+Donate link: http://aaronspeer.com/simple_instagram_donation.php
 Tags: instagram, social, simple, Instagram, feed, pictures
 Requires at least: 3.5.1
-Tested up to: 3.8
-Stable tag: 1.0.0
+Tested up to: 3.9
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,7 +20,7 @@ To help ease installation, the setting page includes simple, step-by-step instru
 
 The plugin uses Instagram’s PHP API, so you don’t need to worry about Javascript conflicts. Plus, the settings page monitors your connection to the API, so if anything goes wrong, you’ll know right away. 
 
-The feed shortcodes and widgets allow you to specify wrapper type (div or li), whether the images are linked to their respective Instagram instances, image size, and number of images pulled. The resulting feed uses unique class names and minimal styling in order to make it as easy as possible to integrate into your blog’s look and feel.  
+The feed shortcodes and widgets allow you to specify wrapper type (div or li), whether the images are linked to their respective Instagram instances, user ID, tags, image size, and number of images pulled. The resulting feed uses unique class names and minimal styling in order to make it as easy as possible to integrate into your blog’s look and feel.  
 
 The profile shortcode and widget allow you to specify which elements are included and give you the option of displaying an unformatted layout (easier to customize) or one with minimal styling applied for a quicker setup.  
 
@@ -66,6 +67,8 @@ To display a feed of your Instagram posts, use the short code `[si_feed]`. You m
 * wrapper - The element used as the item wrapper. Options are `div` and `li`
 * link - Whether the items should link to their respective Instagram entities. Boolean `true` or `false`
 * width - Used to call a *specific* image size in pixels. Use instead of “Size”.
+* user - Used to specify which user to pull the feed from. Default is your own profile. Must be the User ID (not user name). 
+* tag - A tag to pull media from. Specifying a tag will override the user setting. Eg. 'food' or 'hipsters'.
 
 **Popular Shortcode**
 
@@ -102,6 +105,39 @@ This is likely due to a typo in the OAuth Redirect URL you provided in your App 
 
 == Changelog ==
 
+= 1.2 =
+* Fixes: Allows secure sites to load images via https
+
+= 1.1.1 =
+* Fixes: Forces tag feeds to respect the limit provided
+
+= 1.1.0 =
+* Adds: Ability to specify a user or tag in the feed shortcode and widget
+* Adds: Tag widget
+* Adds: Tool on settings page to search for User ID by username for use in the shortcodes and widgets
+* Fixes: Authorization link opens in a new window; settings page will automatically check for authorization and update once authorized. 
+
+= 1.0.3 =
+* Fixes iframe closing tag bug
+
+= 1.0.2 =
+* Temporary fix to make authorization link open in new window to avoid 302 redirect from Instagram
+* Fix deactivation error
+
 = 1.0 =
 * Initial Version
+
+== Upgrade Notice ==
+
+= 1.2 =
+* Fixes: Allows secure sites to load images via https
+
+= 1.1.0 =
+Adds user selection and tag specification. Minor fixes to authorization process. Adds tool to search for User ID by user name. 
+
+= 1.0.3 =
+Fixes iframe closing tag bug
+
+= 1.0.2 =
+Fixes the authorize button to avoid a 302 redirect and deactivation error. Upgrade immediately. 
 

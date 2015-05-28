@@ -1,5 +1,6 @@
 <?php
 add_action( 'widgets_init', 'si_feed_widget' );
+add_action( 'widgets_init', 'si_tag_widget' );
 add_action( 'widgets_init', 'si_popular_widget' );
 add_action( 'widgets_init', 'si_profile_widget' );
 
@@ -26,7 +27,10 @@ class SI_Feed_Widget extends WP_Widget {
     //Our variables from the widget settings.
     $title = apply_filters('widget_title', $instance['title'] );
     $count = $instance['count'];
-
+  $user = isset($instance['user']) ? $instance['user'] : '';
+  if($user == ''){
+    $user = 'self';
+  }
     echo $before_widget;
 
     // Display the widget title 
@@ -35,7 +39,129 @@ class SI_Feed_Widget extends WP_Widget {
 
     $instagram = _createInstagram();
      
-     $feed = $instagram->getUserMedia('self', $count);
+     $feed = $instagram->getUserMedia($user, $count);
+     if($feed && count($feed->data) > 0){
+      $return = '<div class="si_feed_widget">';
+     
+       $return .= '<ul class="si_feed_list">';
+       
+       foreach($feed->data as $image){
+         
+         $url = $image->images->standard_resolution->url;
+
+         // Fix https
+         $url = str_replace('http://', '//', $url);
+
+         $return .= '<li class="si_item">';
+         
+         $return .= '<a href="'.$image->link.'" target="_blank">';
+         $return .= '<img src="'.$url.'">';
+         $return .= '</a>';
+         $return .= '</li>';
+       }
+      $return .= '</ul>';
+      
+      $return .= '</div>';
+     }else{
+      $return = '';
+     }
+     
+    
+    echo $return;
+    
+    echo $after_widget;
+  }
+
+  //Update the widget 
+   
+  function update( $new_instance, $old_instance ) {
+    $instance = $old_instance;
+
+    $instance['title'] = strip_tags( $new_instance['title'] );
+    $instance['count'] = $new_instance['count'];
+  $instance['user'] = $new_instance['user'];
+    return $instance;
+  }
+
+  
+  function form( $instance ) {
+
+    //Set up some default widget settings.
+    $defaults = array( 'title' => __('From Instagram', 'example'), 'count' => __('0', 'example'), 'user' => __('', 'example'));
+    $instance = wp_parse_args( (array) $instance, $defaults ); ?>
+
+    
+    <p>
+      <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title:', 'example'); ?></label>
+      <input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:100%;" />
+    </p>
+    
+    <p>
+      <label for="<?php echo $this->get_field_id( 'user' ); ?>"><?php _e('User ID (leave blank to use your own feed):', 'example'); ?></label>
+      <input id="<?php echo $this->get_field_id( 'user' ); ?>" name="<?php echo $this->get_field_name( 'user' ); ?>" value="<?php echo $instance['user']; ?>" style="width:100%;" />
+    </p>
+
+    <p>
+      <label for="<?php echo $this->get_field_id( 'count' ); ?>"><?php _e('Number of Images (0 for Unmlimited):', 'example'); ?></label>
+      <input id="<?php echo $this->get_field_id( 'count' ); ?>" name="<?php echo $this->get_field_name( 'count' ); ?>" value="<?php echo $instance['count']; ?>" style="width:100%;" />
+    </p>
+
+    
+    
+
+  <?php
+  }
+  
+  function _createInstagram(){
+    $options = get_option('si_options');
+    $auth = get_option('si_oauth');
+
+    $config = array(
+          'apiKey'      => $options['instagram_app_id'],
+          'apiSecret'   => $options['instagram_app_secret'],
+          'apiCallback' => site_url() . '/wp-admin/admin-ajax.php?action=register_instagram'
+        );
+   
+    $instagram = new Instagram($config);
+    $instagram->setAccessToken($auth);
+    
+    return $instagram;
+  }
+}
+
+function si_tag_widget() {
+  register_widget( 'SI_Tag_Widget' );
+}
+
+class SI_Tag_Widget extends WP_Widget {
+
+  function SI_Tag_Widget() {
+    $widget_ops = array( 'classname' => 'si_tag_widget', 'description' => __('A widget to display an Instagram Feed by Tag', 'si_feed') );
+    
+    $control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'si_tag_widget' );
+    
+    $this->WP_Widget( 'si_tag_widget', __('Simple Instagram Tag Widget', 'si_tag'), $widget_ops, $control_ops );
+  }
+  
+  function widget( $args, $instance ) {
+    extract( $args );
+
+    //Our variables from the widget settings.
+    $title = apply_filters('widget_title', $instance['title'] );
+    $count = $instance['count'];
+  if($count > 25){
+    $count = 25;
+  }
+  $tag = $instance['tag'];
+    echo $before_widget;
+
+    // Display the widget title 
+    if ( $title )
+      echo $before_title . $title . $after_title;
+
+    $instagram = _createInstagram();
+     
+     $feed = $instagram->getTagMedia($tag, $count);
      
      $return = '<div class="si_feed_widget">';
      
@@ -45,6 +171,9 @@ class SI_Feed_Widget extends WP_Widget {
        
        $url = $image->images->standard_resolution->url;
        
+       // Fix https
+       $url = str_replace('http://', '//', $url);
+
        $return .= '<li class="si_item">';
        
        $return .= '<a href="'.$image->link.'" target="_blank">';
@@ -68,7 +197,7 @@ class SI_Feed_Widget extends WP_Widget {
 
     $instance['title'] = strip_tags( $new_instance['title'] );
     $instance['count'] = $new_instance['count'];
-
+  $instance['tag'] = strip_tags( $new_instance['tag'] );
     return $instance;
   }
 
@@ -76,7 +205,7 @@ class SI_Feed_Widget extends WP_Widget {
   function form( $instance ) {
 
     //Set up some default widget settings.
-    $defaults = array( 'title' => __('From Instagram', 'example'), 'count' => __('0', 'example'));
+    $defaults = array( 'title' => __('From Instagram', 'example'), 'count' => __('12', 'example'), 'tag' => __('food', 'example'));
     $instance = wp_parse_args( (array) $instance, $defaults ); ?>
 
     
@@ -84,9 +213,14 @@ class SI_Feed_Widget extends WP_Widget {
       <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title:', 'example'); ?></label>
       <input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:100%;" />
     </p>
-
+    
     <p>
-      <label for="<?php echo $this->get_field_id( 'count' ); ?>"><?php _e('Number of Images (0 for Unmlimited):', 'example'); ?></label>
+      <label for="<?php echo $this->get_field_id( 'tag' ); ?>"><?php _e('Tag:', 'example'); ?></label>
+      <input id="<?php echo $this->get_field_id( 'tag' ); ?>" name="<?php echo $this->get_field_name( 'tag' ); ?>" value="<?php echo $instance['tag']; ?>" style="width:100%;" />
+    </p>
+  
+    <p>
+      <label for="<?php echo $this->get_field_id( 'count' ); ?>"><?php _e('Number of Images (25 Maximum):', 'example'); ?></label>
       <input id="<?php echo $this->get_field_id( 'count' ); ?>" name="<?php echo $this->get_field_name( 'count' ); ?>" value="<?php echo $instance['count']; ?>" style="width:100%;" />
     </p>
 
@@ -153,16 +287,19 @@ class SI_Popular_Widget extends WP_Widget {
      
      for($i=0; $i <= $count; $i++){
        if($feed->data[$i]->images != NULL){
-           $url = $feed->data[$i]->images->standard_resolution->url;
+         $url = $feed->data[$i]->images->standard_resolution->url;
+         
+         // Fix https
+         $url = str_replace('http://', '//', $url);
+
+         $return .= '<li class="si_item">';
+         
+         $return .= '<a href="'.$feed->data[$i]->link.'" target="_blank">';
+         $return .= '<img src="'.$url.'">';
+         
+       $return .= '</a>';
        
-	       $return .= '<li class="si_item">';
-	       
-	       $return .= '<a href="'.$feed->data[$i]->link.'" target="_blank">';
-	       $return .= '<img src="'.$url.'">';
-	       
-		   $return .= '</a>';
-		   
-	       $return .= '</li>';
+         $return .= '</li>';
        }
        
     }
@@ -250,10 +387,13 @@ class SI_Profile_Widget extends WP_Widget {
     //Our variables from the widget settings.
     $title = apply_filters('widget_title', $instance['title'] );
     $profile_picture = $instance['profile_picture'];
-	$username = $instance['username'];
-	$full_name = $instance['full_name'];
-	$bio = $instance['bio'];
-	$website = $instance['website'];
+
+    
+
+    $username = $instance['username'];
+    $full_name = $instance['full_name'];
+    $bio = $instance['bio'];
+    $website = $instance['website'];
     
     
     echo $before_widget;
@@ -266,13 +406,14 @@ class SI_Profile_Widget extends WP_Widget {
      
      $user = $instagram->getUser();
      $data = $user->data;
-	      
-     
+        
      $return = '<div class="si_profile_widget">';
      
      if($profile_picture == 'true' && $data->profile_picture != ''){
+       // Fix https
+       $url = str_replace('http://', '//', $data->profile_picture);
        $return .= '<div class="si_profile_picture">';
-       $return .= '<img src="'.$data->profile_picture.'">';
+       $return .= '<img src="'.$url.'">';
        $return .= '</div>';
      }
      
@@ -305,12 +446,12 @@ class SI_Profile_Widget extends WP_Widget {
     $instance = $old_instance;
 
     $instance['title'] = strip_tags( $new_instance['title'] );
-	$instance['profile_picture'] = isset($new_instance['profile_picture']) ? 'true' : 'false';
-	$instance['username'] = isset($new_instance['username']) ? 'true' : 'false';
-	$instance['full_name'] = isset($new_instance['full_name']) ? 'true' : 'false';
-	$instance['bio'] = isset($new_instance['bio']) ? 'true' : 'false';
-	$instance['website'] = isset($new_instance['website']) ? 'true' : 'false';
-	
+  $instance['profile_picture'] = isset($new_instance['profile_picture']) ? 'true' : 'false';
+  $instance['username'] = isset($new_instance['username']) ? 'true' : 'false';
+  $instance['full_name'] = isset($new_instance['full_name']) ? 'true' : 'false';
+  $instance['bio'] = isset($new_instance['bio']) ? 'true' : 'false';
+  $instance['website'] = isset($new_instance['website']) ? 'true' : 'false';
+  
     return $instance;
   }
 
