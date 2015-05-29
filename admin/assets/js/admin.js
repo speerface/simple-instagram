@@ -9,22 +9,22 @@
 		});
 		
 		$('.search_user').click(function(event){
-							event.preventDefault();
-							var data = {
-								action: 'search_users',
-								user: $('input[name="user_name"]').val()
-							};
-						
-							// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-							$.post(ajaxurl, data, function(response) {
-								$('#search_results').html(response);
-							});
-							
-							
-						});
+
+			event.preventDefault();
+
+			var data = {
+				action: 'search_users',
+				user: $('input[name="user_name"]').val()
+			};
 		
-		var clip = new ZeroClipboard( document.getElementById('d_clip_button') );
-		
+			// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+			$.post(ajaxurl, data, function(response) {
+				$('#search_results').html(response);
+			});
+			
+			
+		});
+        
 	});
 
 }(jQuery));

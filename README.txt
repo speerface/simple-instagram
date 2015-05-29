@@ -3,14 +3,18 @@ Contributors: mr_speer, werkpress
 Donate link: http://aaronspeer.com/simple_instagram_donation.php
 Tags: instagram, social, simple, Instagram, feed, pictures
 Requires at least: 3.5.1
-Tested up to: 3.9
-Stable tag: 1.2
+Tested up to: 4.2.2
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 A simple, versatile plugin that allows you to display your Instagram feed, profile, and popular Instagram posts using shortcodes and widgets. 
 
 == Description ==
+
+= Simple Instagram just got Simpler =
+
+New in version 2.0 - authorize your account in a single step. Now it's quicker and easier than ever to get your Instagram feed up and running on your site!
 
 = Finally, a simple, versatile Instagram plugin for your blog. =
 
