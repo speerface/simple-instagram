@@ -30,6 +30,8 @@ class SI_Feed_Widget extends WP_Widget {
         
         $feed = $instagram->getUserMedia( $user, $count );
 
+        $return = '';
+
         if( $feed && count( $feed ) > 0 ) {
 
             $return = '<div class="si_feed_widget">';
@@ -55,9 +57,7 @@ class SI_Feed_Widget extends WP_Widget {
             
             $return.= '</div>';
 
-        } else {
-            $return = '';
-        }
+        } 
         
         echo $return;
         

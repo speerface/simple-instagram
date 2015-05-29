@@ -131,12 +131,11 @@ class SI_Shortcodes {
         $return = '<div class="si_feed">';
         
         $width = str_replace( 'px', '', $width );
+        $w_param = '';
 
         if( $width != 'auto' ) {
             $width = $width > 612 ? 612 : $width;
             $w_param = 'width="' . $width . '" height="' . $width . '"';
-        }else {
-            $w_param = '';
         }
         
         if( $wrapper == 'li' ) {
@@ -145,18 +144,24 @@ class SI_Shortcodes {
         
         foreach( $feed as $image ) {
 
-            switch( $size ) {
-                case 'full':
-                    $url = $image->images->standard_resolution->url;
-                    break;
+            $url = $image->images->standard_resolution->url;
 
-                case 'medium':
-                    $url = $image->images->low_resolution->url;
-                    break;
+            if( $width == 'auto' ) {
 
-                case 'small':
-                    $url = $image->images->thumbnail->url;
-                    break;
+                switch( $size ) {
+                    case 'full':
+                        $url = $image->images->standard_resolution->url;
+                        break;
+
+                    case 'medium':
+                        $url = $image->images->low_resolution->url;
+                        break;
+
+                    case 'small':
+                        $url = $image->images->thumbnail->url;
+                        break;
+                }
+
             }
             
             // Fix https
