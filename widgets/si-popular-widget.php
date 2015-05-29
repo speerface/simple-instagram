@@ -38,18 +38,19 @@ class SI_Popular_Widget extends WP_Widget {
         
         $return.= '<ul class="si_feed_list">';
         
-        for( $i = 0; $i < $count; $i++ ) {
+        foreach( $feed as $image ) {
 
-            if( $feed[ $i ]->images != NULL ) {
-                $url = $feed[ $i ]->images->standard_resolution->url;
+            if( $image->images != NULL ) {
+                
+                $url = $image->images->standard_resolution->url;
                 
                 // Fix https
                 $url = str_replace( 'http://', '//', $url );
                 
                 $return.= '<li class="si_item">';
                 
-                $return.= '<a href="' . $feed[ $i ]->link . '" target="_blank">';
-                $return.= '<img src="' . $url . '">';
+                $return.= '<a href="' . $image->link . '" target="_blank">';
+                $return.= '<img alt="'. $image->caption->text . '" src="' . $url . '">';
                 
                 $return.= '</a>';
                 

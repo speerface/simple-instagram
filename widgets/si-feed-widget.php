@@ -48,7 +48,7 @@ class SI_Feed_Widget extends WP_Widget {
                 $return.= '<li class="si_item">';
                 
                 $return.= '<a href="' . $image->link . '" target="_blank">';
-                $return.= '<img src="' . $url . '">';
+                $return.= '<img alt="'. $image->caption->text . '" src="' . $url . '">';
                 $return.= '</a>';
                 $return.= '</li>';
             }

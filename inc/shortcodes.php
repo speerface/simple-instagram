@@ -171,7 +171,7 @@ class SI_Shortcodes {
             
             $return .= $link == 'true' ? '<a href="' . $image->link . '" target="_blank">' : null;
 
-            $return.= '<img src="' . $url . '" ' . $w_param . ' >';
+            $return.= '<img alt="' . $image->caption->text. '" src="' . $url . '" ' . $w_param . ' >';
 
             $return .= $link == 'true' ? '</a>' : null;
             
