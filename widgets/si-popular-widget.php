@@ -38,7 +38,7 @@ class SI_Popular_Widget extends WP_Widget {
         
         $return.= '<ul class="si_feed_list">';
         
-        for( $i = 0; $i <= $count; $i++ ) {
+        for( $i = 0; $i < $count; $i++ ) {
 
             if( $feed[ $i ]->images != NULL ) {
                 $url = $feed[ $i ]->images->standard_resolution->url;

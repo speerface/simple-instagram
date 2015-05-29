@@ -53,20 +53,24 @@ class SI_Shortcodes {
     public function si_popular( $atts ) {
 
         extract( shortcode_atts( array(
-            'count' => 16,
-            'size' => 'full',
+            'limit' => 16,
+            'size' => 'medium',
             'wrapper' => 'div',
             'link' => 'true',
             'width' => 'auto'
         ) , $atts ) );
         
-        $count = $count >= 16 ? 15 : $count;
+        $limit = $limit >= 16 ? 15 : $limit;
         
         $instagram = new SimpleInstagram();
         
-        $feed = $instagram->getPopularMedia( $count );
+        $feed = $instagram->getPopularMedia( $limit );
 
-        $feed = $this->checkCount( $feed, $count );
+        if( !$feed || count( $feed ) == 0 ) {
+            return '';
+        }
+
+        $feed = $this->checkCount( $feed, $limit );
         
         $return = $this->getImageMarkup( $feed, $width, $size, $wrapper, $link );
         

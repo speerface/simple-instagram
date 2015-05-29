@@ -25,7 +25,6 @@ class SI_Admin
         add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
         add_action( 'admin_menu', array($this, 'add_plugin_admin_menu') );
         add_filter( 'plugin_action_links_' . $plugin_basename, array($this, 'add_action_links') );
-        add_action( 'admin_init', array($this, 'si_admin_init') );
         add_action( 'admin_notices', array( $this, 'si_authorize_notice' ) );
 
     }

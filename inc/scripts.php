@@ -10,6 +10,7 @@
 class SI_Scripts {
     
     private static $instance;
+    protected $plugin_slug = 'simple-instagram';
     
     function __construct() {
         

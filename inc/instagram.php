@@ -69,7 +69,11 @@ class SimpleInstagram {
 
     private function parseData( $response ) {
 
+
         $return = json_decode( $response );
+        if( !$return || is_null( $return ) || $return->meta->code == 400 ) {
+            return false;
+        }
 
         $data = $return->data;
 
