@@ -18,9 +18,7 @@ class SI_Popular_Widget extends WP_Widget {
         
         $title = apply_filters( 'widget_title', $instance['title'] );
         $count = $instance['count'];
-        
-        $count = $count > 16 ? 16 : $count;
-        
+                
         echo $before_widget;
         
         if( $title )echo $before_title . $title . $after_title;

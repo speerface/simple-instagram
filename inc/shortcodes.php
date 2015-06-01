@@ -59,9 +59,7 @@ class SI_Shortcodes {
             'link' => 'true',
             'width' => 'auto'
         ) , $atts ) );
-        
-        $limit = $limit >= 16 ? 15 : $limit;
-        
+                
         $instagram = new SimpleInstagram();
         
         $feed = $instagram->getPopularMedia( $limit );
