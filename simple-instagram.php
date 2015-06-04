@@ -39,6 +39,9 @@ include_once SI_PLUGIN_DIR . '/inc/ajax.php';
 
 add_action( 'plugins_loaded', 'si_init' );
 
+/**
+ * SI Init - Initialize the main Admin Class
+ */
 function si_init() {
 
     $si_admin = SI_Admin::get_instance();

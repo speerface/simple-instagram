@@ -29,20 +29,36 @@ class SI_Admin
 
     }
 
+    /**
+     * Add Plugin Admin Menu - Adds the Simple Instagram 
+     * Settings menu item
+     */
     public function add_plugin_admin_menu() {
 
         $this->plugin_screen_hook_suffix = add_options_page( __( 'Simple Instagram Settings', $this->plugin_slug ), __( 'Simple Instagram', $this->plugin_slug ), 'manage_options', $this->plugin_slug, array( $this, 'display_plugin_admin_page' ) );
     }
 
+    /**
+     * Display Plugin Admin Page - Loads the admin.php file
+     * to display the Simple Instagram settings menu
+     */
     public function display_plugin_admin_page() {
         include_once( SI_PLUGIN_DIR . '/admin/views/admin.php' );
     }
 
+    /**
+     * Add Action Links - Adds the Settings Link to the main
+     * Settings admin menu
+     */
     public function add_action_links( $links ) {
 
         return array_merge( array( 'settings' => '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_slug ) . '">' . __( 'Settings', $this->plugin_slug ) . '</a>' ), $links );
     }
 
+    /**
+     * Load Plugin Text Domain - Loads the text domain for
+     * Simple Instagram
+     */
     public function load_plugin_textdomain() {
 
         $domain = $this->plugin_slug;
@@ -52,6 +68,10 @@ class SI_Admin
 
     }  
 
+    /**
+     * SI Authorize Notice - Displays a notice on the dashboard
+     * reminding users to authorize the Simple Instagram plugin
+     */
     public function si_authorize_notice() {
 
         $screen = get_current_screen();

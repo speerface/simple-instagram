@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * SI Profile Widget Class
+ *
+ * Creates the SI Profile Widget
+ *
+ * @package simple-instagram
+ */
 require_once( SI_PLUGIN_DIR . '/inc/class-simple-instagram.php' );
 
 class SI_Profile_Widget extends WP_Widget {

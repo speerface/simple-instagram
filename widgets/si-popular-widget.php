@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * SI Popular Widget Class
+ *
+ * Creates the SI Popular Widget
+ *
+ * @package simple-instagram
+ */
 require_once( SI_PLUGIN_DIR . '/inc/class-simple-instagram.php' );
 
 class SI_Popular_Widget extends WP_Widget {

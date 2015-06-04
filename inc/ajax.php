@@ -20,6 +20,12 @@ class SI_Ajax {
 
     }
 
+    /**
+     * Search Users - Handles AJAX call to search for a User
+     * by their username
+     *
+     * @return str - The HTML list of users
+     */
     public function search_users() {
 
         if ( ! isset( $_POST['user'] ) || $_POST['user'] == '' ) {

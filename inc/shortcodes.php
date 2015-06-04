@@ -22,6 +22,13 @@ class SI_Shortcodes {
 
     }
 
+    /**
+     * SI Feed - Enables and returns formatted HTML for
+     * the [si_feed] shortcode
+     *
+     * @param array $atts - The Array of provided attributes
+     * @return str $return - The formatted HTML
+     */
     public function si_feed( $atts ) {
 
         $defaults = shortcode_atts( array(
@@ -53,6 +60,13 @@ class SI_Shortcodes {
         return $return;
     }
 
+    /**
+     * SI Popular - Enables and returns formatted HTML for
+     * the [si_popular] shortcode
+     *
+     * @param array $atts - The Array of provided attributes
+     * @return str $return - The formatted HTML
+     */
     public function si_popular( $atts ) {
 
         $defaults = shortcode_atts( array(
@@ -80,6 +94,13 @@ class SI_Shortcodes {
         return $return;
     }
 
+    /**
+     * SI Profile - Enables and returns formatted HTML for
+     * the [si_profile] shortcode
+     *
+     * @param array $atts - The Array of provided attributes
+     * @return str $return - The formatted HTML
+     */
     function si_profile( $atts ) {
 
         $defaults = shortcode_atts( array(
@@ -132,6 +153,17 @@ class SI_Shortcodes {
         return $return;
     }
 
+    /**
+     * Get Image Markup - Take the provided attributes and return formatted
+     * HTML markup for this shortcode
+     *
+     * @param array $feed - The array of media items
+     * @param str $width - The requested media width
+     * @param str $size - The requested media size
+     * @param str $wrapper - The defined item wrapper type
+     * @param bool $link - Whether to provide a link to the media
+     * @return str $return - The formatted HTML markup
+     */
     private function get_image_markup( $feed, $width, $size, $wrapper, $link ) {
 
         $return  = '<div class="si_feed">';
@@ -191,6 +223,14 @@ class SI_Shortcodes {
 
     }
 
+    /**
+     * Check Count - Trims any media feeds that are longer
+     * than the provided limit
+     *
+     * @param array $feed - The media feed
+     * @param int $limit - The provided Limit
+     * @return obj $feed - The trimmed feed
+     */
     private function check_count( $feed, $limit ) {
 
         if ( count( $feed ) > $limit ) {

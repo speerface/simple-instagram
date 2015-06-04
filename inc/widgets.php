@@ -23,6 +23,10 @@ class SI_Widgets {
 
     }
 
+    /**
+     * SI Register Widgets - Registers each of the Simple Instagram
+     * widgets for use in Sidebars
+     */
     function si_register_widgets() {
         register_widget( 'SI_Feed_Widget' );
         register_widget( 'SI_Tag_Widget' );

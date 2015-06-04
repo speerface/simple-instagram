@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * SI Tag Widget Class
+ *
+ * Creates the SI Tag Widget
+ *
+ * @package simple-instagram
+ */
 class SI_Tag_Widget extends WP_Widget {
 
     public function SI_Tag_Widget() {

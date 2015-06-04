@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * SI Feed Widget Class
+ *
+ * Creates the SI Feed Widget
+ *
+ * @package simple-instagram
+ */
 require_once( SI_PLUGIN_DIR . '/inc/class-simple-instagram.php' );
 
 class SI_Feed_Widget extends WP_Widget {

@@ -22,6 +22,9 @@ class SI_Scripts {
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_styles' ) );
     }
 
+    /**
+     * Enqueue Admin Styles - Add the proper Admin Styles
+     */
     public function enqueue_admin_styles() {
 
         $screen = get_current_screen();
@@ -31,6 +34,9 @@ class SI_Scripts {
         }
     }
 
+    /**
+     * Enqueue Admin Scripts - Add the proper Admin Scripts
+     */
     public function enqueue_admin_scripts() {
 
         $screen = get_current_screen();
@@ -40,6 +46,9 @@ class SI_Scripts {
         }
     }
 
+    /**
+     * Enqueue Public Styles - Add the proper Public Styles
+     */
     public function enqueue_public_styles() {
         wp_enqueue_style( $this->plugin_slug . '-public-styles', SI_PLUGIN_URL . 'public/assets/css/public.css' );
     }
