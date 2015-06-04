@@ -8,12 +8,12 @@
  * @package simple-instagram
  */
 
-require_once( SI_PLUGIN_DIR . '/inc/instagram.php' );
+require_once( SI_PLUGIN_DIR . '/inc/class-simple-instagram.php' );
 
 class SI_Ajax {
-    
+
     private static $instance;
-    
+
     function __construct() {
 
         add_action( 'wp_ajax_search_users', array( $this, 'search_users' ) );
@@ -22,26 +22,24 @@ class SI_Ajax {
 
     public function search_users() {
 
-        $username = sanitize_text_field( $_POST['user'] );
-
-        if( !$username || $username == '' ) {
+        if ( ! isset( $_POST['user'] ) || $_POST['user'] == '' ) {
             echo '';
             exit;
         }
 
-        $instagram = new SimpleInstagram();
+        $username  = sanitize_text_field( $_POST['user'] );
+        $instagram = new Simple_Instagram();
+        $users     = $instagram->get_user_id( $username );
 
-        $users = $instagram->getUserId( $username );
-
-        if( !$users || count( $users ) == 0 ) {
+        if ( ! $users || 0 == count( $users )  ) {
             echo '';
             exit;
         }
 
-        foreach( $users as $result ): ?>
+        foreach ( $users as $result ): ?>
             <div class="si_sr">
                 <div class="si_sr_user_image">
-                    <img src="<?php echo $result->profile_picture; ?>">
+                    <img src="<?php echo esc_attr( $result->profile_picture ); ?>">
                 </div>
                 <div class="si_sr_user_info">
                     <div class="si_sr_user_name">
@@ -56,15 +54,15 @@ class SI_Ajax {
 
         exit;
     }
-    
+
     /**
      * Get Class Instance
      *
      * @return obj
      */
-    public static function getInstance() {
+    public static function get_instance() {
 
-        if( self::$instance === null ) {
+        if ( self::$instance === null ) {
             self::$instance = new SI_Ajax();
         }
         return self::$instance;

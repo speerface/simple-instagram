@@ -14,7 +14,9 @@ A simple, versatile plugin that allows you to display your Instagram feed, profi
 
 = Simple Instagram just got Simpler =
 
-New in version 2.0 - authorize your account in a single step. Now it's quicker and easier than ever to get your Instagram feed up and running on your site!
+New in version 2.0 - authorize your account in a single step. Now it's quicker and easier than ever to get your Instagram feed up and running on your site! Getting your feed up and running just takes one step - authorize your account and you're ready to go! Getting an Instagram feed on your site has never been easier. 
+
+*Note:* If you are upgrading from a previous version, you'll need to re-authorize your Instagram account on the Settings page. Once you do, all of your shortcodes and widgets will continue to work as before. 
 
 = Finally, a simple, versatile Instagram plugin for your blog. =
 
@@ -109,6 +111,12 @@ This is likely due to a typo in the OAuth Redirect URL you provided in your App 
 
 == Changelog ==
 
+= 2.0 =
+* Adds: New authorization flow is now a single step.  
+* Adds: Images now have proper Alt tags to avoid validation errors.
+* Adds: Popular feeds now have an unlimited count.
+* Fixes: Refactored codebase to be cleaner and more manageable. 
+
 = 1.2 =
 * Fixes: Allows secure sites to load images via https
 
@@ -132,6 +140,12 @@ This is likely due to a typo in the OAuth Redirect URL you provided in your App 
 * Initial Version
 
 == Upgrade Notice ==
+
+= 2.0 =
+* Adds: New authorization flow is now a single step.  
+* Adds: Images now have proper Alt tags to avoid validation errors.
+* Adds: Popular feeds now have an unlimited count.
+* Fixes: Refactored codebase to be cleaner and more manageable.
 
 = 1.2 =
 * Fixes: Allows secure sites to load images via https

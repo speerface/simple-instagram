@@ -14,9 +14,9 @@ require_once( SI_PLUGIN_DIR . '/widgets/si-profile-widget.php' );
 require_once( SI_PLUGIN_DIR . '/widgets/si-tag-widget.php' );
 
 class SI_Widgets {
-    
+
     private static $instance;
-    
+
     function __construct() {
 
         add_action( 'widgets_init', array( $this, 'si_register_widgets' ) );
@@ -29,18 +29,18 @@ class SI_Widgets {
         register_widget( 'SI_Popular_Widget' );
         register_widget( 'SI_Profile_Widget' );
     }
-    
+
     /**
      * Get Class Instance
      *
      * @return obj
      */
-    public static function getInstance() {
+    public static function get_instance() {
 
-        if( self::$instance === null ) {
+        if ( self::$instance === null ) {
             self::$instance = new SI_Widgets();
         }
         return self::$instance;
-        
+
     }
 }

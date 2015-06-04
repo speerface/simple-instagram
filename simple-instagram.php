@@ -2,7 +2,7 @@
 /**
  * simple-instagram
  *
- * A plugin to allow users to include Instagram feeds, media, and information. 
+ * A plugin to allow users to include Instagram feeds, media, and information.
  *
  * @package   Simple Instagram
  * @author    Aaron Speer <adspeer@gmail.com>
@@ -25,22 +25,22 @@
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
-	die;
+    die;
 }
 
-define( 'SI_PLUGIN_DIR', dirname(__FILE__) );
+define( 'SI_PLUGIN_DIR', dirname( __FILE__ ) );
 define( 'SI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-@include_once SI_PLUGIN_DIR . "/inc/admin.php";
-@include_once SI_PLUGIN_DIR . "/inc/scripts.php";
-@include_once SI_PLUGIN_DIR . "/inc/widgets.php";
-@include_once SI_PLUGIN_DIR . "/inc/shortcodes.php";
-@include_once SI_PLUGIN_DIR . "/inc/ajax.php";
+include_once SI_PLUGIN_DIR . '/inc/admin.php';
+include_once SI_PLUGIN_DIR . '/inc/scripts.php';
+include_once SI_PLUGIN_DIR . '/inc/widgets.php';
+include_once SI_PLUGIN_DIR . '/inc/shortcodes.php';
+include_once SI_PLUGIN_DIR . '/inc/ajax.php';
 
 add_action( 'plugins_loaded', 'si_init' );
 
 function si_init() {
 
-    $si_admin = SI_Admin::getInstance();
+    $si_admin = SI_Admin::get_instance();
 
 }
