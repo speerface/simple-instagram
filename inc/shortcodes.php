@@ -200,16 +200,16 @@ class SI_Shortcodes {
                 }
             }
             else {
-				if ( $width <= $image->images->thumbnail->width ) {
-					$url = $image->images->thumbnail->url;
-				}
-				else if ( $width <= $image->images->low_resolution->width ) {
-					$url = $image->images->low_resolution->url;
-				}
-				else {
-					$url = $image->images->standard_resolution->url;
-				}
-			}
+    			if ( $width <= $image->images->thumbnail->width ) {
+    			    $url = $image->images->thumbnail->url;
+    			}
+    			else if ( $width <= $image->images->low_resolution->width ) {
+    			    $url = $image->images->low_resolution->url;
+    			}
+    			else {
+    			    $url = $image->images->standard_resolution->url;
+    			}
+    		}
 
             // Fix https
             $url = str_replace( 'http://', '//', $url );
